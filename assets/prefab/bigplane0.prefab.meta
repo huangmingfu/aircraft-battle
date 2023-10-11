@@ -2,13 +2,13 @@
   "ver": "1.1.45",
   "importer": "prefab",
   "imported": true,
-  "uuid": "688b019e-8e8d-4eb5-8fb7-e743a0195969",
+  "uuid": "5b198098-bc25-410e-8693-9e935f3b7d47",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "bullet",
+    "syncNodeName": "bigplane0",
     "persistent": true
   }
 }

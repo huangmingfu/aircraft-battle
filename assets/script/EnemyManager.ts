@@ -1,13 +1,13 @@
-import { _decorator, Component, instantiate, Node, Prefab } from 'cc';
+import { _decorator, Collider2D, Component, instantiate, Node, Prefab } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('EnemyManager')
 export class EnemyManager extends Component {
-    @property(Prefab)
-    enemy: Prefab = null
+    @property(Prefab) private enemy: Prefab = null//敌机对象
+    @property(Prefab) private bigplane: Prefab = null //敌人大舰
 
     start() {
-        //获取enemy空节点的坐标
+        //获取父enemy空节点的坐标
         const { x, y } = this.node.getPosition()
         //x是-209多，敌机的坐标是相当于父节点，是0,0
         this.schedule(() => {
@@ -16,6 +16,13 @@ export class EnemyManager extends Component {
             airplaneNode.setPosition(Math.random() * 400 + 40, y)
             //添加到canvas中
             this.node.addChild(airplaneNode)
+        }, 0.5)
+
+        //敌人大舰
+        this.schedule(() => {
+            const bigplaneNode = instantiate(this.bigplane)
+            bigplaneNode.setPosition(Math.random() * 418 - 209, y)
+            bigplaneNode.setParent(this.node.parent)//addChild添加不进去了
         }, 1)
     }
 

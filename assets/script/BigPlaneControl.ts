@@ -2,15 +2,16 @@ import { _decorator, Collider2D, Component, Contact2DType, find, Node, resources
 import { ScoreControl } from './ScoreControl';
 const { ccclass, property } = _decorator;
 
-@ccclass('EnemyControl')
-export class EnemyControl extends Component {
+@ccclass('BigPlaneControl')
+export class BigPlaneControl extends Component {
     private isDead: boolean = false//判断是否销毁了
-    private airplaneDeadImages = []
-    private scoreClass = null
+    private airplaneDeadImages = []//存放本地图片资源
+    private attackNum: number = 0 //子弹击中次数
+    private scoreClass = null//分数的类
+
     start() {
         //拿到分数的类
         this.scoreClass = find("Canvas/score").getComponent(ScoreControl)
-        //加载图片
         this.loadImages()
         // 注册单个碰撞体的回调函数
         let collider = this.getComponent(Collider2D);
@@ -23,25 +24,31 @@ export class EnemyControl extends Component {
         if (this.isDead) return//这里如果销毁了要停止不然会报错，并且暂停敌机移动
         const { x, y } = this.node.getPosition()
         //敌机移动速度
-        const moveY = y - 600 * deltaTime
+        const moveY = y - 400 * deltaTime
         this.node.setPosition(x, moveY)
         //如果超出屏幕就删除，优化性能
         if (moveY < -852) {
             this.node.destroy()
         }
     }
+
     // 只在两个碰撞体开始接触时被调用一次
     onBeginContact(self: Collider2D, other: Collider2D) {
-        //子弹与敌机碰撞，子弹1，敌机2
-        if (self.tag === 2 && other.tag === 1) {
-            this.scoreClass.addScore(1)
-            this.die()//自己销毁
+        //子弹与敌机碰撞，子弹1，敌人大舰3
+        if (self.tag === 3 && other.tag === 1) {
+            //玩家击中三次才销毁
+            if (this.attackNum >= 3) {
+                this.scoreClass.addScore(3)//分数+3
+                this.die()
+            } else {
+                this.attackNum++
+            }
         }
     }
 
     //加载图片
     loadImages() {
-        resources.loadDir("enemy-death", SpriteFrame, (err, spriteFrames) => {
+        resources.loadDir("bigplane-death", SpriteFrame, (err, spriteFrames) => {
             this.airplaneDeadImages = spriteFrames
         })
     }
