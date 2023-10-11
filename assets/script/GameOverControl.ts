@@ -3,17 +3,18 @@ const { ccclass, property } = _decorator;
 
 @ccclass('GameOverControl')
 export class GameOverControl extends Component {
+    private active: boolean = false
     start() {
         //隐藏节点
-        // this.node.active = false
+        this.node.active = this.active
     }
 
     update(deltaTime: number) {
 
     }
 
-    show() {
-        this.node.active = true
+    changeActive() {
+        this.node.active = !this.active
     }
 }
 

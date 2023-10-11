@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, director, EventTouch, find, instantiate, Node, Prefab, v3 } from 'cc';
+import { _decorator, Collider2D, Component, Contact2DType, EventTouch, find, game, instantiate, Node, Prefab, v3 } from 'cc';
 import { GameOverControl } from './GameOverControl';
 const { ccclass, property } = _decorator;
 
@@ -7,6 +7,7 @@ export class PlayerControl extends Component {
     @property(Prefab)
     private bullet: Prefab = null//接收子弹对象
     private gameoverClass = null//拿到gameover的class
+
     start() {
         //拿到gameover的class
         this.gameoverClass = find("Canvas/gameover").getComponent(GameOverControl)
@@ -49,8 +50,8 @@ export class PlayerControl extends Component {
         //玩家与敌机碰撞
         if (self.tag === 0 && (other.tag === 2 || other.tag === 3)) {
             this.node.off(Node.EventType.TOUCH_MOVE, this.move, this)
-            director.end()//暂停游戏
-            this.gameoverClass.show()
+            this.gameoverClass.changeActive()
+            game.pause()//暂停游戏
         }
     }
 }
