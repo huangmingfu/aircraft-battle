@@ -13,8 +13,8 @@ export class ReStartControl extends Component {
         this.node.on(Node.EventType.TOUCH_START, (e: EventTouch) => {
             // this.gameoverClass.changeActive()//不用更改这个也行
             game.resume()//先恢复游戏正常
-            game.restart()//再重新开始游戏
-            // director.loadScene('scene');//方法二
+            // game.restart()//再重新开始游戏
+            director.loadScene('scene');//方法二
         }, this)
     }
 

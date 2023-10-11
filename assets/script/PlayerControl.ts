@@ -31,7 +31,7 @@ export class PlayerControl extends Component {
             //子弹的坐标：飞机的y坐标加上70像素的距离
             bulletNode.setPosition(x, y + 70)
             //然后，后面执行BulletControl即子弹的start和update
-        }, 0.2)
+        }, 0.1)
     }
 
     //触摸移动飞机

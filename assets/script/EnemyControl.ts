@@ -23,7 +23,7 @@ export class EnemyControl extends Component {
         if (this.isDead) return//这里如果销毁了要停止不然会报错，并且暂停敌机移动
         const { x, y } = this.node.getPosition()
         //敌机移动速度
-        const moveY = y - 600 * deltaTime
+        const moveY = y - 400 * deltaTime
         this.node.setPosition(x, moveY)
         //如果超出屏幕就删除，优化性能
         if (moveY < -852) {
