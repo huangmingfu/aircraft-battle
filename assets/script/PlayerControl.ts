@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, EventTouch, find, game, instantiate, Node, Prefab, v3 } from 'cc';
+import { _decorator, Collider2D, Component, Contact2DType, EventTouch, find, game, instantiate, Node, Prefab, resources, Sprite, SpriteFrame, v3 } from 'cc';
 import { GameOverControl } from './GameOverControl';
 const { ccclass, property } = _decorator;
 
@@ -7,10 +7,12 @@ export class PlayerControl extends Component {
     @property(Prefab)
     private bullet: Prefab = null//接收子弹对象
     private gameoverClass = null//拿到gameover的class
-
+    airplaneDeadImages = []//毁坏图片资源
     start() {
+        //加载图片
+        this.loadImages()
         //拿到gameover的class
-        this.gameoverClass = find("Canvas/gameover").getComponent(GameOverControl)
+        this.gameoverClass = find("Canvas/ContentWidget/gameover").getComponent(GameOverControl)
         // 注册单个碰撞体的回调函数
         let collider = this.getComponent(Collider2D);
         if (collider) {
@@ -49,9 +51,34 @@ export class PlayerControl extends Component {
     onBeginContact(self: Collider2D, other: Collider2D) {
         //玩家与敌机碰撞
         if (self.tag === 0 && (other.tag === 2 || other.tag === 3)) {
-            this.node.off(Node.EventType.TOUCH_MOVE, this.move, this)
-            this.gameoverClass.changeActive()
-            game.pause()//暂停游戏
+            this.playDead()//播放死亡动画
+            this.getComponent(Collider2D).off(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);//卸载碰撞事件
+            this.node.off(Node.EventType.TOUCH_MOVE, this.move, this)//卸载移动事件绑定
+            this.gameoverClass.changeActive()//切换暂停的背景图
+            setTimeout(() => {
+                game.pause()//暂停游戏
+            }, 1000)
+        }
+    }
+    //加载图片
+    loadImages() {
+        resources.loadDir("player-death", SpriteFrame, (err, spriteFrames) => {
+            this.airplaneDeadImages = spriteFrames
+        })
+    }
+    //播放死亡动画
+    playDead() {
+        const spriteNode = this.node.getComponent(Sprite)
+        if (spriteNode) {
+            for (let i = 0; i < this.airplaneDeadImages.length; i++) {
+                //加个定时器，动画过渡效果，不如一下子就切换到了最后一张爆炸的图片
+                setTimeout(() => {
+                    //判断节点是否被销毁
+                    if (this.node?.isValid) {
+                        spriteNode.spriteFrame = this.airplaneDeadImages[i]
+                    }
+                }, i * 80);//i * 80 逐个切换图片
+            }
         }
     }
 }

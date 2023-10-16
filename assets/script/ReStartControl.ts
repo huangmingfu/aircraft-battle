@@ -8,7 +8,7 @@ export class ReStartControl extends Component {
 
     onLoad() {
         //拿到gameover的class
-        this.gameoverClass = find("Canvas/gameover").getComponent(GameOverControl)
+        this.gameoverClass = find("Canvas/ContentWidget/gameover").getComponent(GameOverControl)
 
         this.node.on(Node.EventType.TOUCH_START, (e: EventTouch) => {
             // this.gameoverClass.changeActive()//不用更改这个也行

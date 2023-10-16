@@ -11,7 +11,7 @@ export class BigPlaneControl extends Component {
 
     start() {
         //拿到分数的类
-        this.scoreClass = find("Canvas/score").getComponent(ScoreControl)
+        this.scoreClass = find("Canvas/ContentWidget/score").getComponent(ScoreControl)
         this.loadImages()
         // 注册单个碰撞体的回调函数
         let collider = this.getComponent(Collider2D);
