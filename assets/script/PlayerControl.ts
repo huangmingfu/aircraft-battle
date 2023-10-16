@@ -8,6 +8,7 @@ export class PlayerControl extends Component {
     private bullet: Prefab = null//接收子弹对象
     private gameoverClass = null//拿到gameover的class
     airplaneDeadImages = []//毁坏图片资源
+    award
     start() {
         //加载图片
         this.loadImages()
@@ -33,7 +34,7 @@ export class PlayerControl extends Component {
             //子弹的坐标：飞机的y坐标加上70像素的距离
             bulletNode.setPosition(x, y + 70)
             //然后，后面执行BulletControl即子弹的start和update
-        }, 0.1)
+        }, 0.3)
     }
 
     //触摸移动飞机
@@ -59,6 +60,10 @@ export class PlayerControl extends Component {
                 game.pause()//暂停游戏
             }, 1000)
         }
+        //玩家捡到空投
+        if (self.tag === 0 && other.tag === 10) {
+
+        }
     }
     //加载图片
     loadImages() {
@@ -80,6 +85,10 @@ export class PlayerControl extends Component {
                 }, i * 80);//i * 80 逐个切换图片
             }
         }
+    }
+    //空投切换子弹
+    awardToggle(){
+
     }
 }
 
