@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node, Prefab } from 'cc';
+import { _decorator, Component, instantiate, Node, Prefab, v3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('AwardManager')
@@ -12,12 +12,11 @@ export class AwardManager extends Component {
         //x是-209多，敌机的坐标是相当于父节点，是0,0
         this.schedule(() => {
             const awardNode = instantiate(this.award)
-            //设置敌机的出发坐标：x坐标随机数40-440(40（包含）到 440（不包含）)，y不变
-            awardNode.setPosition(Math.random() * 400 + 40, y)
+            awardNode.setPosition(v3(Math.random() * 389 - 180, Math.random() * 1800 + 1500))
             //添加到canvas中
             this.node.addChild(awardNode)
             // awardNode.setParent(this.node.parent)
-        }, 0.5)
+        }, 2)
     }
 
     update(deltaTime: number) {

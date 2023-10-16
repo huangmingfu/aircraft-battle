@@ -15,24 +15,25 @@ export class Bullet2Control extends Component {
     }
 
     update(deltaTime: number) {
-        if (this.isDead) return//这里如果销毁了要停止不然会报错
+        // if (this.isDead) return//这里如果销毁了要停止不然会报错
 
-        const { x, y } = this.node.getPosition()
-        // console.log('子弹移动距离', 600 * deltaTime)//10像素左右，deltaTime=0.016800000190734864
-        const moveY = y + 600 * deltaTime
-        //子弹循环往上发射
-        this.node.setPosition(x, moveY)
-        // 判断超出屏幕销毁子弹
-        if (moveY > 852) {
-            //在定时器中会不断地创建子弹，超出屏幕之后依然存在，这里需要简单的优化一下，子弹超出屏幕范围就进行销毁。
-            this.node.destroy();
-        }
+        // const { x, y } = this.node.getPosition()
+        // // console.log('子弹移动距离', 600 * deltaTime)//10像素左右，deltaTime=0.016800000190734864
+        // const moveY = y + 600 * deltaTime
+        // //子弹循环往上发射
+        // this.node.setPosition(x, moveY)
+        // // 判断超出屏幕销毁子弹
+        // if (moveY > 852) {
+        //     //在定时器中会不断地创建子弹，超出屏幕之后依然存在，这里需要简单的优化一下，子弹超出屏幕范围就进行销毁。
+        //     this.node.destroy();
+        // }
     }
 
     // 只在两个碰撞体开始接触时被调用一次
     onBeginContact(self: Collider2D, other: Collider2D) {
         //子弹与敌机碰撞，子弹1，敌机2
-        if (self.tag === 1 && (other.tag === 2 || other.tag === 3)) {
+        if (self.tag === 11 && (other.tag === 2 || other.tag === 3)) {
+            console.log('打中')
             this.die()
         }
     }

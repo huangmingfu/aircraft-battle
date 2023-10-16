@@ -6,9 +6,15 @@ const { ccclass, property } = _decorator;
 export class PlayerControl extends Component {
     @property(Prefab)
     private bullet: Prefab = null//接收子弹对象
+    @property(Prefab)
+    private bullet2: Prefab = null//接收子弹2对象
     private gameoverClass = null//拿到gameover的class
     airplaneDeadImages = []//毁坏图片资源
-    award
+    @property(Prefab)
+    award:Prefab = null
+    hasAward:boolean = false
+    bulletTime = null
+    bullet2Time = null
     start() {
         //加载图片
         this.loadImages()
@@ -24,7 +30,11 @@ export class PlayerControl extends Component {
         this.node.on(Node.EventType.TOUCH_MOVE, this.move, this)//最后要加this不然报错
 
         //设置定时器循环发射子弹
-        this.schedule(() => {
+        this.bulletTime = this.schedule(() => {
+            if (this.hasAward) {
+                // 取消这个计时器
+                this.unschedule(this.bulletTime);
+            }
             //获取飞机的坐标
             const { x, y } = this.node.getPosition()
             //实例化子弹节点
@@ -62,7 +72,9 @@ export class PlayerControl extends Component {
         }
         //玩家捡到空投
         if (self.tag === 0 && other.tag === 10) {
-
+            this.hasAward = true
+            this.toggleBullet()
+            this.debounce(()=>{this.hasAward = false},2000)
         }
     }
     //加载图片
@@ -87,9 +99,44 @@ export class PlayerControl extends Component {
         }
     }
     //空投切换子弹
-    awardToggle(){
-
+    toggleBullet(){
+        //设置定时器循环发射子弹
+        this.bullet2Time = this.schedule(() => {
+            if (!this.hasAward) {
+                // 取消这个计时器
+                this.unschedule(this.bullet2Time);
+            }
+            //获取飞机的坐标
+            const { x, y } = this.node.getPosition()
+            //实例化子弹节点
+            const bulletNode = instantiate(this.bullet2)
+            //通过节点下的方法setParent设置子弹的父节点为当前飞机的父节点，也就是和飞机同级。
+            bulletNode.setParent(this.node.parent)//更改子弹节点的父节点
+            //子弹的坐标：飞机的y坐标加上70像素的距离
+            bulletNode.setPosition(x, y + 70)
+            //然后，后面执行BulletControl即子弹的start和update
+        }, 0.3)
     }
+    debounce(
+        fn: Function,
+        delay: number = 500,
+        immediately: boolean = true
+      ) {
+        let timerID: number = -1;
+        return function (this: any, ...arg: any) {
+          if (timerID < 0 && immediately) {
+            fn.apply(this, arg);
+            timerID = 1;
+            return;
+          }
+          if (timerID > 0) {
+            clearTimeout(timerID);
+          }
+          timerID = window.setTimeout(() => {
+            fn.apply(this, arg);
+          }, delay);
+        };
+      }
 }
 
 
