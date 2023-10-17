@@ -36,12 +36,14 @@ export class BigPlaneControl extends Component {
     onBeginContact(self: Collider2D, other: Collider2D) {
         //子弹与敌机碰撞，子弹1，敌人大舰3
         if (self.tag === 3 && (other.tag === 1 || other.tag === 11)) {
+            if (this.isDead) return
             //玩家击中三次才销毁
-            if (this.attackNum >= 3) {
+            if (this.attackNum >= 15) {
                 this.scoreClass.addScore(3)//分数+3
                 this.die()
             } else {
                 this.attackNum++
+                console.log(this.attackNum)
             }
         }
     }

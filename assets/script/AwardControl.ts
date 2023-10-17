@@ -15,7 +15,7 @@ export class AwardControl extends Component {
         const moveY = y - 400 * deltaTime
         this.node.setPosition(x, moveY)
         //如果超出屏幕就删除，优化性能
-        if (moveY < - 520) {
+        if (moveY < - 1770) {
             this.node.destroy()
         }
     }

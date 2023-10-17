@@ -18,7 +18,6 @@ export class BulletControl extends Component {
         if (this.isDead) return//这里如果销毁了要停止不然会报错
 
         const { x, y } = this.node.getPosition()
-        console.log('zzzzz子弹',x,y)
         // console.log('子弹移动距离', 600 * deltaTime)//10像素左右，deltaTime=0.016800000190734864
         const moveY = y + 600 * deltaTime
         //子弹循环往上发射

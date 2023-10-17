@@ -25,7 +25,6 @@ export class PlayerControl extends Component {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
             collider.on(Contact2DType.END_CONTACT, this.onEndContact, this);
         }
-
         //触摸移动事件
         this.node.on(Node.EventType.TOUCH_MOVE, this.move, this)//最后要加this不然报错
         //发射子弹
@@ -34,11 +33,13 @@ export class PlayerControl extends Component {
     //子弹1发射
     bullet1Send() {
         //设置定时器循环发射子弹
-        this.bulletTime = function () {
+        this.bulletTime =  ()=> {
             if (this.hasAward) {
                 // 取消这个计时器
                 this.unschedule(this.bulletTime);
+                return
             }
+            console.log('子弹1发射')
             //获取飞机的坐标
             const { x, y } = this.node.getPosition()
             //实例化子弹节点
@@ -47,8 +48,6 @@ export class PlayerControl extends Component {
             bulletNode.setParent(this.node.parent)//更改子弹节点的父节点
             //子弹的坐标：飞机的y坐标加上70像素的距离
             bulletNode.setPosition(x, y + 70)
-            console.log('子弹预制体',bulletNode.getPosition())
-            console.log('飞机',x, y)
             //然后，后面执行BulletControl即子弹的start和update
         }
         this.schedule(this.bulletTime, 0.3)
@@ -79,14 +78,12 @@ export class PlayerControl extends Component {
         //玩家捡到空投
         if (self.tag === 0 && other.tag === 10) {
             other.getComponent(AwardControl).die()
-            // if (!this.hasAward) {
-            //     this.scheduleOnce(()=>{
-            //         this.hasAward = false
-            //     },2)
-            // }
-            if (!this.hasAward) {
-                this.debounce(() => { this.hasAward = false; console.log('定时器到了') })
+            if (this.hasAward) {
+                return
             }
+            this.scheduleOnce(()=>{
+                this.hasAward = false
+            },2)
             this.toggleBullet()
         }
     }
@@ -114,6 +111,7 @@ export class PlayerControl extends Component {
     //空投切换子弹
     toggleBullet() {
         if (this.hasAward) return
+        console.log('子弹2发射')
         //设置定时器循环发射子弹
         this.bullet2Time = function () {
             if (!this.hasAward) {
@@ -121,6 +119,7 @@ export class PlayerControl extends Component {
                 this.unschedule(this.bullet2Time);
                 //发射子弹1
                 this.bullet1Send()
+                return
             }
             for (let i = 0; i <= 6; i++) {
                 //获取飞机的坐标
@@ -137,13 +136,6 @@ export class PlayerControl extends Component {
         }
         this.schedule(this.bullet2Time, 0.1)
         this.hasAward = true
-    }
-    debounce(fn: Function, duration: number = 800) {
-        let timer;//记录上一次的计时器
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            fn()
-        }, duration)
     }
 }
 
