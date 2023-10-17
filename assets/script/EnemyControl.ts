@@ -33,7 +33,7 @@ export class EnemyControl extends Component {
     // 只在两个碰撞体开始接触时被调用一次
     onBeginContact(self: Collider2D, other: Collider2D) {
         //子弹与敌机碰撞，子弹1，敌机2
-        if (self.tag === 2 && other.tag === 1) {
+        if (self.tag === 2 && (other.tag === 1 || other.tag === 11)) {
             this.scoreClass.addScore(1)
             this.die()//自己销毁
         }

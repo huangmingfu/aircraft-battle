@@ -35,7 +35,7 @@ export class BigPlaneControl extends Component {
     // 只在两个碰撞体开始接触时被调用一次
     onBeginContact(self: Collider2D, other: Collider2D) {
         //子弹与敌机碰撞，子弹1，敌人大舰3
-        if (self.tag === 3 && other.tag === 1) {
+        if (self.tag === 3 && (other.tag === 1 || other.tag === 11)) {
             //玩家击中三次才销毁
             if (this.attackNum >= 3) {
                 this.scoreClass.addScore(3)//分数+3

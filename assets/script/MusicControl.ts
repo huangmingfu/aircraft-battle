@@ -25,6 +25,7 @@ export class MusicOnControl extends Component {
             resources.load("music-on/spriteFrame", SpriteFrame, (err, spriteFrame) => {
                 this.node.getComponent(Sprite).spriteFrame = spriteFrame;
                 this.audio.play()
+                this.toggleFlag = true
             });
         }
     }

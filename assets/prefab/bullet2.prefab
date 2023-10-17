@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "airplane0",
+    "_name": "bullet2",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "airplane0",
+    "_name": "bullet2",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -42,7 +42,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": -276,
       "z": 0
     },
     "_lrot": {
@@ -59,7 +59,7 @@
       "z": 1
     },
     "_mobility": 0,
-    "_layer": 1073741824,
+    "_layer": 33554432,
     "_euler": {
       "__type__": "cc.Vec3",
       "x": 0,
@@ -82,8 +82,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 49,
-      "height": 35
+      "width": 9,
+      "height": 21
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -94,7 +94,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "0alWkQD61FPJnj20KxmVe2"
+    "fileId": "6bA+sO759Bxoi1/snzf1V1"
   },
   {
     "__type__": "cc.Sprite",
@@ -119,7 +119,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "b95c5b94-b00f-4985-8dbe-08d9dc5cbb84@f9941",
+      "__uuid__": "9677b89e-bbb6-40b9-a631-d4fda16826cc@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -139,10 +139,10 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "63YkMGH2VFzK1bBjLwpok8"
+    "fileId": "3eNwXQ/8hBO4sFAE3OVQpV"
   },
   {
-    "__type__": "2d011d+sdBH5IAXKa98bBxx",
+    "__type__": "172fd1ZxApABbq5grLhUyyu",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -157,7 +157,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "a9/JX+l5lNm5Nqu1/ScNBw"
+    "fileId": "67Mk+3E8RHLatT9sBaX5aJ"
   },
   {
     "__type__": "cc.RigidBody2D",
@@ -191,7 +191,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "d0qAzzc/ZFzZu5mgn4EbYk"
+    "fileId": "1brW5xKg5JT4mC4KdfPxUW"
   },
   {
     "__type__": "cc.PolygonCollider2D",
@@ -205,7 +205,7 @@
     "__prefab": {
       "__id__": 11
     },
-    "tag": 2,
+    "tag": 11,
     "_group": 1,
     "_density": 1,
     "_sensor": false,
@@ -219,110 +219,40 @@
     "_points": [
       {
         "__type__": "cc.Vec2",
-        "x": -5.5,
-        "y": 17.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -13.5,
-        "y": 16.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -13.5,
+        "x": 0.5,
         "y": 10.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -9.5,
-        "y": 8.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -21.5,
-        "y": 8.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -24.5,
-        "y": 5.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -24.5,
-        "y": 1.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -17.5,
-        "y": -5.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -15.5,
-        "y": -5.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -15.5,
-        "y": -8.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -12.5,
-        "y": -8.5
       },
       {
         "__type__": "cc.Vec2",
         "x": -4.5,
-        "y": -17.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 5.5,
-        "y": -16.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 24.5,
-        "y": 2.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 24.5,
         "y": 5.5
       },
       {
         "__type__": "cc.Vec2",
-        "x": 21.5,
-        "y": 8.5
+        "x": -4.5,
+        "y": -6.5
       },
       {
         "__type__": "cc.Vec2",
-        "x": 6.5,
-        "y": 8.5
+        "x": -0.5,
+        "y": -10.5
       },
       {
         "__type__": "cc.Vec2",
-        "x": 8.5,
+        "x": 4.5,
+        "y": -10.5
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 4.5,
         "y": 10.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 13.5,
-        "y": 11.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 11.5,
-        "y": 17.5
       }
     ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "e9avXGK0VO96d+QkyXbU4Z"
+    "fileId": "a1llfVAsBNi6VSw0MQ46ri"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -332,7 +262,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "22AbQHDedNqLZiJkkpSbqR",
+    "fileId": "55B9wY6TdIK7/p49b8asDk",
     "targetOverrides": null
   }
 ]

@@ -1,20 +1,19 @@
 import { _decorator, Collider2D, Component, Contact2DType, EventTouch, find, game, instantiate, Node, Prefab, resources, Sprite, SpriteFrame, v3 } from 'cc';
 import { GameOverControl } from './GameOverControl';
+import { AwardControl } from './AwardControl';
 const { ccclass, property } = _decorator;
 
 @ccclass('PlayerControl')
 export class PlayerControl extends Component {
     @property(Prefab)
-    private bullet: Prefab = null//接收子弹对象
+    bullet: Prefab = null//接收子弹对象
     @property(Prefab)
-    private bullet2: Prefab = null//接收子弹2对象
-    private gameoverClass = null//拿到gameover的class
+    bullet2: Prefab = null//接收子弹2对象
+    gameoverClass = null//拿到gameover的class
     airplaneDeadImages = []//毁坏图片资源
-    @property(Prefab)
-    award:Prefab = null
-    hasAward:boolean = false
-    bulletTime = null
-    bullet2Time = null
+    hasAward: boolean = false//是否拿到空投标志
+    bulletTime = null//子弹1定时器
+    bullet2Time = null//子弹2定时器
     start() {
         //加载图片
         this.loadImages()
@@ -24,13 +23,18 @@ export class PlayerControl extends Component {
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+            collider.on(Contact2DType.END_CONTACT, this.onEndContact, this);
         }
 
         //触摸移动事件
         this.node.on(Node.EventType.TOUCH_MOVE, this.move, this)//最后要加this不然报错
-
+        //发射子弹
+        this.bullet1Send()
+    }
+    //子弹1发射
+    bullet1Send() {
         //设置定时器循环发射子弹
-        this.bulletTime = this.schedule(() => {
+        this.bulletTime = function () {
             if (this.hasAward) {
                 // 取消这个计时器
                 this.unschedule(this.bulletTime);
@@ -43,10 +47,12 @@ export class PlayerControl extends Component {
             bulletNode.setParent(this.node.parent)//更改子弹节点的父节点
             //子弹的坐标：飞机的y坐标加上70像素的距离
             bulletNode.setPosition(x, y + 70)
+            console.log('子弹预制体',bulletNode.getPosition())
+            console.log('飞机',x, y)
             //然后，后面执行BulletControl即子弹的start和update
-        }, 0.3)
+        }
+        this.schedule(this.bulletTime, 0.3)
     }
-
     //触摸移动飞机
     move(e: EventTouch) {
         //获取当前触点在 UI 窗口内相对于左下角的坐标位置，对象包含 x 和 y 属性。用getLocation会大一倍距离
@@ -54,10 +60,6 @@ export class PlayerControl extends Component {
         //设置节点在世界坐标系中的位置
         this.node.setWorldPosition(v3(x, y))
     }
-    update(deltaTime: number) {
-
-    }
-
     // 只在两个碰撞体开始接触时被调用一次
     onBeginContact(self: Collider2D, other: Collider2D) {
         //玩家与敌机碰撞
@@ -70,11 +72,22 @@ export class PlayerControl extends Component {
                 game.pause()//暂停游戏
             }, 1000)
         }
+
+    }
+    // 只在两个碰撞体结束接触时被调用一次
+    onEndContact(self: Collider2D, other: Collider2D) {
         //玩家捡到空投
         if (self.tag === 0 && other.tag === 10) {
-            this.hasAward = true
+            other.getComponent(AwardControl).die()
+            // if (!this.hasAward) {
+            //     this.scheduleOnce(()=>{
+            //         this.hasAward = false
+            //     },2)
+            // }
+            if (!this.hasAward) {
+                this.debounce(() => { this.hasAward = false; console.log('定时器到了') })
+            }
             this.toggleBullet()
-            this.debounce(()=>{this.hasAward = false},2000)
         }
     }
     //加载图片
@@ -99,44 +112,39 @@ export class PlayerControl extends Component {
         }
     }
     //空投切换子弹
-    toggleBullet(){
+    toggleBullet() {
+        if (this.hasAward) return
         //设置定时器循环发射子弹
-        this.bullet2Time = this.schedule(() => {
+        this.bullet2Time = function () {
             if (!this.hasAward) {
                 // 取消这个计时器
                 this.unschedule(this.bullet2Time);
+                //发射子弹1
+                this.bullet1Send()
             }
-            //获取飞机的坐标
-            const { x, y } = this.node.getPosition()
-            //实例化子弹节点
-            const bulletNode = instantiate(this.bullet2)
-            //通过节点下的方法setParent设置子弹的父节点为当前飞机的父节点，也就是和飞机同级。
-            bulletNode.setParent(this.node.parent)//更改子弹节点的父节点
-            //子弹的坐标：飞机的y坐标加上70像素的距离
-            bulletNode.setPosition(x, y + 70)
-            //然后，后面执行BulletControl即子弹的start和update
-        }, 0.3)
+            for (let i = 0; i <= 6; i++) {
+                //获取飞机的坐标
+                const { x, y } = this.node.getPosition()
+                //实例化子弹节点
+                const bulletNode = instantiate(this.bullet2)
+                //通过节点下的方法setParent设置子弹的父节点为当前飞机的父节点，也就是和飞机同级。
+                bulletNode.setParent(this.node.parent)//更改子弹节点的父节点
+                //子弹的坐标：飞机的y坐标加上70像素的距离
+                bulletNode.setPosition(x + (-Math.cos((Math.PI / 180) * i * 30) * 40), y + (Math.sin(Math.PI / 180 * i * 30) * 40 + 40))
+                //设置旋转角度
+                // bulletNode.setRotationFromEuler(v3(0, 0, Math.abs(80)))
+            }
+        }
+        this.schedule(this.bullet2Time, 0.1)
+        this.hasAward = true
     }
-    debounce(
-        fn: Function,
-        delay: number = 500,
-        immediately: boolean = true
-      ) {
-        let timerID: number = -1;
-        return function (this: any, ...arg: any) {
-          if (timerID < 0 && immediately) {
-            fn.apply(this, arg);
-            timerID = 1;
-            return;
-          }
-          if (timerID > 0) {
-            clearTimeout(timerID);
-          }
-          timerID = window.setTimeout(() => {
-            fn.apply(this, arg);
-          }, delay);
-        };
-      }
+    debounce(fn: Function, duration: number = 800) {
+        let timer;//记录上一次的计时器
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn()
+        }, duration)
+    }
 }
 
 

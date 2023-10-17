@@ -9,7 +9,7 @@
       "__id__": 1
     },
     "optimizationPolicy": 0,
-    "persistent": true
+    "persistent": false
   },
   {
     "__type__": "cc.Node",

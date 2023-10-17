@@ -1,15 +1,11 @@
-import { _decorator, Collider2D, Component, Contact2DType, find, Node, resources, Sprite, SpriteFrame } from 'cc';
+import { _decorator, Collider2D, Component, Contact2DType, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('AwardControl')
 export class AwardControl extends Component {
     private isDead: boolean = false//判断是否销毁了
     start() {
-        // 注册单个碰撞体的回调函数
-        let collider = this.getComponent(Collider2D);
-        if (collider) {
-            collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-        }
+
     }
 
     update(deltaTime: number) {
@@ -19,20 +15,10 @@ export class AwardControl extends Component {
         const moveY = y - 400 * deltaTime
         this.node.setPosition(x, moveY)
         //如果超出屏幕就删除，优化性能
-        if (moveY < - 1704) {
+        if (moveY < - 520) {
             this.node.destroy()
         }
     }
-    // 只在两个碰撞体开始接触时被调用一次
-    onBeginContact(self: Collider2D, other: Collider2D) {
-
-        //空投10，玩家0
-        if (self.tag === 10 && other.tag === 0) {
-            this.die()//自己销毁
-        }
-    }
-
-
 
     die() {
         if (this.isDead) return;
