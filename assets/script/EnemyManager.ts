@@ -3,8 +3,9 @@ const { ccclass, property } = _decorator;
 
 @ccclass('EnemyManager')
 export class EnemyManager extends Component {
-    @property(Prefab) private enemy: Prefab = null//敌机对象
-    @property(Prefab) private bigplane: Prefab = null //敌人大舰
+    @property(Prefab)  enemy: Prefab = null//敌机对象
+    @property(Prefab)  bigplane: Prefab = null //敌人大舰
+    @property(Prefab)  enemy3: Prefab = null //超大舰
 
     start() {
         //获取父enemy空节点的坐标
@@ -23,6 +24,13 @@ export class EnemyManager extends Component {
             const bigplaneNode = instantiate(this.bigplane)
             bigplaneNode.setPosition(Math.random() * 418 - 209, y)
             bigplaneNode.setParent(this.node.parent)//addChild添加不进去了
+        }, 1)
+
+        //超大舰
+        this.schedule(() => {
+            const enemy3Node = instantiate(this.enemy3)
+            enemy3Node.setPosition(Math.random() * 418 - 209, y)
+            enemy3Node.setParent(this.node.parent)//addChild添加不进去了
         }, 1)
     }
 

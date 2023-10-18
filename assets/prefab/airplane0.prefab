@@ -34,15 +34,18 @@
       },
       {
         "__id__": 10
+      },
+      {
+        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 12
+      "__id__": 14
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": -206.203,
+      "y": -268.453,
       "z": 0
     },
     "_lrot": {
@@ -194,7 +197,7 @@
     "fileId": "d0qAzzc/ZFzZu5mgn4EbYk"
   },
   {
-    "__type__": "cc.PolygonCollider2D",
+    "__type__": "cc.BoxCollider2D",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -216,113 +219,41 @@
       "x": 0,
       "y": 0
     },
-    "_points": [
-      {
-        "__type__": "cc.Vec2",
-        "x": -5.5,
-        "y": 17.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -13.5,
-        "y": 16.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -13.5,
-        "y": 10.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -9.5,
-        "y": 8.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -21.5,
-        "y": 8.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -24.5,
-        "y": 5.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -24.5,
-        "y": 1.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -17.5,
-        "y": -5.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -15.5,
-        "y": -5.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -15.5,
-        "y": -8.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -12.5,
-        "y": -8.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -4.5,
-        "y": -17.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 5.5,
-        "y": -16.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 24.5,
-        "y": 2.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 24.5,
-        "y": 5.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 21.5,
-        "y": 8.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 6.5,
-        "y": 8.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 8.5,
-        "y": 10.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 13.5,
-        "y": 11.5
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 11.5,
-        "y": 17.5
-      }
-    ],
+    "_size": {
+      "__type__": "cc.Size",
+      "width": 49,
+      "height": 35
+    },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "e9avXGK0VO96d+QkyXbU4Z"
+    "fileId": "6f7Te7IfhIvqs6VraGbFRQ"
+  },
+  {
+    "__type__": "cc.AudioSource",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 13
+    },
+    "_clip": {
+      "__uuid__": "2767984a-8e62-4b7c-80f9-755e07887507",
+      "__expectedType__": "cc.AudioClip"
+    },
+    "_loop": false,
+    "_playOnAwake": false,
+    "_volume": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "068bF3Eh1PcIaCWOK0/6YQ"
   },
   {
     "__type__": "cc.PrefabInfo",

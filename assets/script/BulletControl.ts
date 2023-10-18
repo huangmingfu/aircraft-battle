@@ -31,8 +31,8 @@ export class BulletControl extends Component {
 
     // 只在两个碰撞体开始接触时被调用一次
     onBeginContact(self: Collider2D, other: Collider2D) {
-        //子弹与敌机碰撞，子弹1，敌机2
-        if (self.tag === 1 && (other.tag === 2 || other.tag === 3)) {
+        //子弹与敌机碰撞，子弹1，敌机2，大舰3，超大舰4
+        if (self.tag === 1 && (other.tag === 2 || other.tag === 3 || other.tag === 4)) {
             this.die()
         }
     }
@@ -46,7 +46,7 @@ export class BulletControl extends Component {
         // 3后面敌机需要添加死亡动画
         setTimeout(() => {
             this.node?.destroy()//可能会报不能读取destroy
-        }, 100);
+        }, 0);
     }
 
 }

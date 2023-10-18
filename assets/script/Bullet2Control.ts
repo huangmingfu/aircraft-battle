@@ -30,8 +30,8 @@ export class Bullet2Control extends Component {
 
     // 只在两个碰撞体开始接触时被调用一次
     onBeginContact(self: Collider2D, other: Collider2D) {
-        //高级子弹与敌机碰撞，高级子弹11，敌机2和3
-        if (self.tag === 11 && (other.tag === 2 || other.tag === 3)) {
+        //高级子弹与敌机碰撞，高级子弹11，敌机2和3和4
+        if (self.tag === 11 && (other.tag === 2 || other.tag === 3 || other.tag === 4)) {
             this.die()
         }
     }

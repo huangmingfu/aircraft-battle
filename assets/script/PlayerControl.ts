@@ -39,7 +39,6 @@ export class PlayerControl extends Component {
                 this.unschedule(this.bulletTime);
                 return
             }
-            console.log('子弹1发射')
             //获取飞机的坐标
             const { x, y } = this.node.getPosition()
             //实例化子弹节点
@@ -62,7 +61,7 @@ export class PlayerControl extends Component {
     // 只在两个碰撞体开始接触时被调用一次
     onBeginContact(self: Collider2D, other: Collider2D) {
         //玩家与敌机碰撞
-        if (self.tag === 0 && (other.tag === 2 || other.tag === 3)) {
+        if (self.tag === 0 && (other.tag === 2 || other.tag === 3 || other.tag === 4)) {
             this.playDead()//播放死亡动画
             this.getComponent(Collider2D).off(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);//卸载碰撞事件
             this.node.off(Node.EventType.TOUCH_MOVE, this.move, this)//卸载移动事件绑定
@@ -111,7 +110,6 @@ export class PlayerControl extends Component {
     //空投切换子弹
     toggleBullet() {
         if (this.hasAward) return
-        console.log('子弹2发射')
         //设置定时器循环发射子弹
         this.bullet2Time = function () {
             if (!this.hasAward) {

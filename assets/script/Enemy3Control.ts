@@ -2,8 +2,8 @@ import { _decorator, Collider2D, Component, Contact2DType, find, Node, resources
 import { ScoreControl } from './ScoreControl';
 const { ccclass, property } = _decorator;
 
-@ccclass('BigPlaneControl')
-export class BigPlaneControl extends Component {
+@ccclass('Enemy3Control')
+export class Enemy3Control extends Component {
     private isDead: boolean = false//判断是否销毁了
     private airplaneDeadImages = []//存放本地图片资源
     private attackNum: number = 0 //子弹击中次数
@@ -34,12 +34,12 @@ export class BigPlaneControl extends Component {
 
     // 只在两个碰撞体开始接触时被调用一次
     onBeginContact(self: Collider2D, other: Collider2D) {
-        //子弹与敌机碰撞，敌人大舰3，子弹1
-        if (self.tag === 3 && (other.tag === 1 || other.tag === 11)) {
+        //子弹与敌机碰撞，子弹1,11
+        if (self.tag === 4 && (other.tag === 1 || other.tag === 11)) {
             if (this.isDead) return
-            //玩家击中三次才销毁
-            if (this.attackNum >= 3) {
-                this.scoreClass.addScore(3)//分数+3
+            //玩家击中20次才销毁
+            if (this.attackNum >= 20) {
+                this.scoreClass.addScore(20)//分数+20
                 this.die()
             } else {
                 this.attackNum++
@@ -49,7 +49,7 @@ export class BigPlaneControl extends Component {
 
     //加载图片
     loadImages() {
-        resources.loadDir("bigplane-death", SpriteFrame, (err, spriteFrames) => {
+        resources.loadDir("enemy3-death", SpriteFrame, (err, spriteFrames) => {
             this.airplaneDeadImages = spriteFrames
         })
     }
