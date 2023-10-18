@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, find, Node, resources, Sprite, SpriteFrame } from 'cc';
+import { _decorator, AudioSource, Collider2D, Component, Contact2DType, find, Node, resources, Sprite, SpriteFrame } from 'cc';
 import { ScoreControl } from './ScoreControl';
 const { ccclass, property } = _decorator;
 
@@ -8,8 +8,11 @@ export class BigPlaneControl extends Component {
     private airplaneDeadImages = []//存放本地图片资源
     private attackNum: number = 0 //子弹击中次数
     private scoreClass = null//分数的类
+    audio: AudioSource = null
 
     start() {
+        //音频
+        this.audio = this.getComponent(AudioSource)
         //拿到分数的类
         this.scoreClass = find("Canvas/ContentWidget/score").getComponent(ScoreControl)
         this.loadImages()
@@ -27,7 +30,7 @@ export class BigPlaneControl extends Component {
         const moveY = y - 400 * deltaTime
         this.node.setPosition(x, moveY)
         //如果超出屏幕就删除，优化性能
-        if (moveY < -852) {
+        if (moveY < -1200) {
             this.node.destroy()
         }
     }
@@ -72,6 +75,7 @@ export class BigPlaneControl extends Component {
 
     die() {
         if (this.isDead) return;
+        this.audio?.play()
         this.isDead = true
         this.playDead()
         // 延迟销毁主要原因是因为:

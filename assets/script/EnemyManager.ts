@@ -14,7 +14,7 @@ export class EnemyManager extends Component {
         this.schedule(() => {
             const airplaneNode = instantiate(this.enemy)
             //设置敌机的出发坐标：x坐标随机数40-440(40（包含）到 440（不包含）)，y不变
-            airplaneNode.setPosition(Math.random() * 400 + 40, y)
+            airplaneNode.setPosition(Math.random() * 418 - 209, y)
             //添加到canvas中
             this.node.addChild(airplaneNode)
         }, 0.5)
@@ -31,7 +31,7 @@ export class EnemyManager extends Component {
             const enemy3Node = instantiate(this.enemy3)
             enemy3Node.setPosition(Math.random() * 418 - 209, y)
             enemy3Node.setParent(this.node.parent)//addChild添加不进去了
-        }, 1)
+        }, 5)
     }
 
     update(deltaTime: number) {

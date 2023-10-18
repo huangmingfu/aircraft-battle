@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, EventTouch, find, game, instantiate, Node, Prefab, resources, Sprite, SpriteFrame, v3 } from 'cc';
+import { _decorator, AudioSource, Collider2D, Component, Contact2DType, EventTouch, find, game, instantiate, Node, Prefab, resources, Sprite, SpriteFrame, v3 } from 'cc';
 import { GameOverControl } from './GameOverControl';
 import { AwardControl } from './AwardControl';
 const { ccclass, property } = _decorator;
@@ -14,7 +14,10 @@ export class PlayerControl extends Component {
     hasAward: boolean = false//是否拿到空投标志
     bulletTime = null//子弹1定时器
     bullet2Time = null//子弹2定时器
+    audio: AudioSource = null
     start() {
+        //音频
+        this.audio = this.getComponent(AudioSource)
         //加载图片
         this.loadImages()
         //拿到gameover的class
@@ -33,7 +36,7 @@ export class PlayerControl extends Component {
     //子弹1发射
     bullet1Send() {
         //设置定时器循环发射子弹
-        this.bulletTime =  ()=> {
+        this.bulletTime = () => {
             if (this.hasAward) {
                 // 取消这个计时器
                 this.unschedule(this.bulletTime);
@@ -49,7 +52,7 @@ export class PlayerControl extends Component {
             bulletNode.setPosition(x, y + 70)
             //然后，后面执行BulletControl即子弹的start和update
         }
-        this.schedule(this.bulletTime, 0.3)
+        this.schedule(this.bulletTime, 0.2)
     }
     //触摸移动飞机
     move(e: EventTouch) {
@@ -62,6 +65,7 @@ export class PlayerControl extends Component {
     onBeginContact(self: Collider2D, other: Collider2D) {
         //玩家与敌机碰撞
         if (self.tag === 0 && (other.tag === 2 || other.tag === 3 || other.tag === 4)) {
+            this.audio?.play()
             this.playDead()//播放死亡动画
             this.getComponent(Collider2D).off(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);//卸载碰撞事件
             this.node.off(Node.EventType.TOUCH_MOVE, this.move, this)//卸载移动事件绑定
@@ -80,9 +84,9 @@ export class PlayerControl extends Component {
             if (this.hasAward) {
                 return
             }
-            this.scheduleOnce(()=>{
+            this.scheduleOnce(() => {
                 this.hasAward = false
-            },2)
+            }, 2)
             this.toggleBullet()
         }
     }

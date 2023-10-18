@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, find, Node, resources, Sprite, SpriteFrame } from 'cc';
+import { _decorator, AudioSource, Collider2D, Component, Contact2DType, find, Node, resources, Sprite, SpriteFrame } from 'cc';
 import { ScoreControl } from './ScoreControl';
 const { ccclass, property } = _decorator;
 
@@ -8,8 +8,11 @@ export class Enemy3Control extends Component {
     private airplaneDeadImages = []//存放本地图片资源
     private attackNum: number = 0 //子弹击中次数
     private scoreClass = null//分数的类
+    audio: AudioSource = null
 
     start() {
+        //音频
+        this.audio = this.getComponent(AudioSource)
         //拿到分数的类
         this.scoreClass = find("Canvas/ContentWidget/score").getComponent(ScoreControl)
         this.loadImages()
@@ -27,7 +30,7 @@ export class Enemy3Control extends Component {
         const moveY = y - 400 * deltaTime
         this.node.setPosition(x, moveY)
         //如果超出屏幕就删除，优化性能
-        if (moveY < -852) {
+        if (moveY < -1500) {
             this.node.destroy()
         }
     }
@@ -39,6 +42,7 @@ export class Enemy3Control extends Component {
             if (this.isDead) return
             //玩家击中20次才销毁
             if (this.attackNum >= 20) {
+                this.audio?.play()
                 this.scoreClass.addScore(20)//分数+20
                 this.die()
             } else {
@@ -80,7 +84,7 @@ export class Enemy3Control extends Component {
         // 3后面敌机需要添加死亡动画
         setTimeout(() => {
             this.node?.destroy()//可能会报error:不能读取destroy
-        }, this.airplaneDeadImages.length * 80);
+        }, this.airplaneDeadImages.length * 100);
     }
 }
 
